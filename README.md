@@ -29,7 +29,7 @@ const int BPM_MAX = 240;
 // Explicación: Pide un número al usuario y valida que esté en un rango.
 // ------------------------------------------------------------
 int leerEnteroEnRango(const string& mensaje, int minimo, int maximo) {
-    int valor = 0;
+    int valor = 0; // Pide un num. y devuelve un entero.
 
     while (true) { //Sigue pidiendo el valor hasta q sea valido
         cout << mensaje;
