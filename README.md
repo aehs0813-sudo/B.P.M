@@ -1,122 +1,66 @@
-// Detector de BPM - Versión Manual 
-// El programa permite ingresar un archivo .wav o .mp3
-// y asignarle un BPM manualmente.
+Integrantes del equipo
+Jose J. Hernández Ortega
+Janluis Lebrón Rivera
+Ángel Hernández
 
-// --- Librerías ---
-#include <iostream>
-#include <string>
-#include <vector>
-#include <algorithm>
-#include <limits>
+Este proyecto es un Detector de BPM (Beats Per Minute) escrito en C++ para el curso COMP2120 – Lógica de Programación.
+El programa permite:
+Ingresar la ruta de un archivo de audio (.wav o .mp3)
+Detectar el BPM (manualmente por ahora)
+Validar entradas del usuario
+Mostrar un menú interactivo
+Preparar la estructura necesaria para en el futuro integrar detección automática real mediante librerías de audio como Aubio
 
-using namespace std;
+El enfoque principal del proyecto es demostrar:
+Lógica de programación
+Uso de variables y constantes
+Uso de funciones
+Validación de entrada
+Condiciones (if)
+Ciclos (while)
+Uso de librerías estándar en C++
+Tecnologías y librerías utilizadas
 
-// ------------------------------------------------------------
-// VARIABLES GLOBALES 
-// ------------------------------------------------------------
-bool programaActivo = true;
-int opcion = 0;
-int bpm = 0;
-string rutaArchivo = "";
-int resultadoDeteccion = 0;
+El programa utiliza las siguientes librerías estándar de C++:
+Librería Uso
+<iostream> Entrada y salida en consola
+<string> Manejo de cadenas de texto
+<limits> Control de errores en entrada
+<vector> Reservado para posibles extensiones futuras
+<algorithm> Reservado para uso futuro (ordenamiento, búsqueda)
+Funciones principales
+leerEnteroEnRango()
+Valida que el usuario ingrese un número dentro de un rango específico (en este caso, BPM entre 40 y 240).
+Evita errores por letras o números fuera del rango usando:
+cin.clear()
+cin.ignore()
+detectarBPMConAubio()
+Simulación de detección automática de BPM.
 
-// Constantes de BPM permitidas
-const int BPM_MIN = 40;
-const int BPM_MAX = 240;
+Actualmente no está implementada, pero está lista para expansión.
+detectarBPM()
+Gestiona el proceso completo de detección de BPM:
+Intenta detección automática
+Si falla, solicita BPM manual
+Regresa el resultado al programa principal
+mostrarMenu()
+Imprime el menú del programa.
 
-// ------------------------------------------------------------
-// Función: leerEnteroEnRango
-// Explicación: Pide un número al usuario y valida que esté en un rango.
-// ------------------------------------------------------------
-int leerEnteroEnRango(const string& mensaje, int minimo, int maximo) {
-    int valor = 0; // Pide un num. y devuelve un entero.
+ main()
+ 
+Controla la ejecución general:
 
-    while (true) { //Sigue pidiendo el valor hasta q sea valido
-        cout << mensaje;
+Ciclo principal (while)
+Lectura de opciones
+Llamado a funciones
+Mensajes de salida al usuario
+Posibles mejoras (Futuras versiones)
+Implementar detección real de BPM usando la librería Aubio
+Crear un archivo .txt o .csv para guardar historial de canciones y BPM
+Añadir un menú más completo
+Implementar una interfaz gráfica (GUI)
+Soporte para diferentes formatos de audio
+Lectura automática del nombre del archivo sin escribir la ruta completa
 
-        if (cin >> valor && valor >= minimo && valor <= maximo) { //Intenta leer un número.
-            break; // aceptado, sale del loop cua el v este in dl rang
-        } else {
-            cin.clear(); //Limpia el estado de error si el usuario escribe el txt.
-            cin.ignore(numeric_limits<streamsize>::max(), '\n'); //limpia el buffer para evitar un loop infinito
-            cout << "Número inválido. Debe estar entre " << minimo
-                 << " y " << maximo << ".\n";
-        }
-    }
-
-    return valor;
-}
-
-// ------------------------------------------------------------
-// Función: detectarBPMConAubio 
-// ------------------------------------------------------------
-int detectarBPMConAubio(const string& ruta) {
-    (void)ruta; // evita warning de variable no usada
-    cout << "[Info] La detección automática REAL no está implementada.\n";
-    return -1; // siempre falla (manual fallback)
-}
-
-// ------------------------------------------------------------
-// Función: detectarBPM
-// ------------------------------------------------------------
-int detectarBPM(const string& ruta) {
-    cout << "\n[Info] Intentando detectar BPM para: " << ruta << "\n";
-
-    int autoBPM = detectarBPMConAubio(ruta);
-
-    if (autoBPM < 0) {
-        cout << "[Advertencia] Falló la detección automática.\n";
-        autoBPM = leerEnteroEnRango("Ingrese BPM manualmente (40–240): ",
-                                    BPM_MIN, BPM_MAX);
-    }
-
-    return autoBPM;
-}
-
-// ------------------------------------------------------------
-// Función: mostrarMenu
-// ------------------------------------------------------------
-void mostrarMenu() {
-    cout << "\n=== Detector de BPM (Versión Manual) ===\n"
-         << "1) Detectar BPM de un archivo de audio\n"
-         << "0) Salir\n> ";
-}
-
-// ------------------------------------------------------------
-// Función principal
-// ------------------------------------------------------------
-int main() {
-
-    while (programaActivo) {
-        mostrarMenu();
-
-        if (!(cin >> opcion)) {
-            cin.clear();
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            cout << "Entrada inválida.\n";
-            continue;
-        }
-
-        if (opcion == 1) {
-            cin.ignore(numeric_limits<streamsize>::max(), '\n'); // limpiar buffer
-
-            cout << "Ingrese la ruta del archivo (.wav o .mp3): ";
-            getline(cin, rutaArchivo);
-
-            bpm = detectarBPM(rutaArchivo);
-
-            cout << "\nResultado:\n";
-            cout << "  Archivo : " << rutaArchivo << "\n";
-            cout << "  BPM     : " << bpm << "\n";
-        }
-        else if (opcion == 0) {
-            programaActivo = false;
-        }
-        else {
-            cout << "Opción inválida.\n";
-        }
-    }
-
-    cout << "¡Hasta luego!\n";
-    return 0;  
-}
+Este proyecto está licenciado bajo la MIT License, lo que permite:
+Usar el código
